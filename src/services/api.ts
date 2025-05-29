@@ -7,7 +7,7 @@ const baseUrl = axios.create({
 })
 
 
-//POST
+//Solicita criação da solução - POST
 export const createSolution = async (errorCode: string, errorTitle: string, solutionContent: string) => {
     await baseUrl.post('/solution', {
         errorCode: errorCode,
@@ -16,18 +16,19 @@ export const createSolution = async (errorCode: string, errorTitle: string, solu
     });
 }
 
-//Solicitar todas as soluções
+//Solicitar todas as soluções - READ ALL
 export const getAllSolution = async (): Promise<Solution[]> => {
-    const res = await baseUrl.get('/solution');
+    const res = await baseUrl.get('/solutions');
     return res.data;
 }
 
-//Solicita uma solução especifica
+//Solicita uma solução especifica (utilizando id como parametro) - READ SINGLE
 export const getSingleSolution = async (id: string): Promise<Solution> => {
     const res = await baseUrl.get(`/solution/${id}`);
     return res.data;
 }
 
+//Solicita remoção da solução _ DELETE
 export const deleteSolution = (id: string) => {
     baseUrl.delete(`/solution/${id}`);
     window.location.reload();

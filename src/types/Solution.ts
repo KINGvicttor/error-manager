@@ -1,6 +1,6 @@
 export type Solution = {
     id: string,
-    errorCode: number,
+    errorCode: string,
     errorTitle: string,
     solutionContent: string
 }
