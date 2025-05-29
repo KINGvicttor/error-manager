@@ -1,4 +1,4 @@
-import { createSolution, getAllSolution, getSingleSolution } from "@/services/api";
+import { createSolution, deleteSolution, getAllSolution } from "@/services/api";
 import { Solution } from "@/types/Solution";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
@@ -18,6 +18,7 @@ type DataContextType = {
 
     //functions POST, UPDATE, DELETE
     addSolution: (errorCode: string, errorTitle: string, solutionContent: string) => void;
+    deleteSingleSolution: (id: string) => void;
 }
 
 type Props = {
@@ -41,6 +42,15 @@ export const DataContextProvider = ({ children }: Props) => {
         window.location.href = '/solutionList';
     }
 
+    //UPDATE
+
+
+    //DELETE
+
+    const deleteSingleSolution = (id: string) => {
+        deleteSolution(id);
+        window.location.reload();
+    }
 
     //Fazendo requisição da lista de Soluções
     useEffect(() => {
@@ -51,7 +61,7 @@ export const DataContextProvider = ({ children }: Props) => {
 
 
     return (
-        <DataContext.Provider value={{ solutionData, errorCodeInput, errorTitleInput, solutionContentInput, setErrorCodeInput, setErrorTitleInput, setSolutionContentInput,             addSolution}}>
+        <DataContext.Provider value={{ solutionData, errorCodeInput, errorTitleInput, solutionContentInput, setErrorCodeInput, setErrorTitleInput, setSolutionContentInput, addSolution, deleteSingleSolution }}>
             {children}
         </DataContext.Provider>
     )

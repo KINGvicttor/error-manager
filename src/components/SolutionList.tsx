@@ -1,5 +1,4 @@
 import { DataContext } from "@/contexts/DataContext"
-import { deleteSolution } from "@/services/api";
 import { useContext } from "react"
 
 export const SolutionList = () => {
@@ -22,7 +21,7 @@ export const SolutionList = () => {
                         <a href="/addSolution" className="bg-green-500 px-3 py-2 rounded-lg text-white mr-10 cursor-pointer hover:bg-green-500/90">+ Adicionar</a>
                     </div>
                 </div>
-                <div className="w-full h-[520px] bg-primary-white">
+                <div className="w-full h-auto bg-primary-white">
                     <table className="w-full table-auto">
                         <thead className=" bg-primary-blue text-white">
                             <tr className="h-[50px]">
@@ -32,11 +31,6 @@ export const SolutionList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {solutionCtx?.solutionData.length === 0 &&
-                                <tr>
-                                    <td className="table-row-group border w-full"> teste </td>
-                                </tr>
-                            }
                             {solutionCtx?.solutionData.map((item) => (
                                 <tr key={item.id} className="h-[50px] hover:bg-gray-200">
                                     <td className="w-[80px] text-start px-2 border-b border-primary-blue">{item.errorCode}</td>
@@ -44,7 +38,7 @@ export const SolutionList = () => {
                                     <td className="w-[150px] px-2 border-b border-primary-blue">
                                         <a href={`/solutionDetail?id=${item.id}`} className="px-3 py-2 cursor-pointer w-[80px] mx-1 bg-secondary-blue text-white rounded-lg hover:bg-secondary-blue/90">Solução</a>
                                         <a href={`/editSolution?id=${item.id}`} className="px-3 py-2 cursor-pointer w-[60px] mx-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-500/90">Edit</a>
-                                        <a onClick={() => deleteSolution(item.id)} className="px-3 py-2 cursor-pointer w-[70px] mx-1 bg-red-500 text-white rounded-lg hover:bg-red-500/90">Delete</a>
+                                        <a onClick={() => solutionCtx.deleteSingleSolution(item.id)} className="px-3 py-2 cursor-pointer w-[70px] mx-1 bg-red-500 text-white rounded-lg hover:bg-red-500/90">Delete</a>
                                     </td>
                                 </tr>
                             ))
