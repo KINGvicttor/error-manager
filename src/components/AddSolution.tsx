@@ -1,4 +1,10 @@
+import { DataContext } from "@/contexts/DataContext"
+import { useContext, useRef } from "react"
+
 export const AddSolution = () => {
+
+    const solutionCtx = useContext(DataContext);
+
     return (
         <section className="w-screen h-[calc(100vh-80px)] flex flex-col bg-secondary-white">
             <div className="container mx-auto flex justify-center items-center p-10">
@@ -18,23 +24,23 @@ export const AddSolution = () => {
                         <label className="text-sm text-primary-blue mb-1" htmlFor="">Digite o código do erro:</label>
                         <input
                             className="bg-secondary-white px-3 py-2 border-primary-blue border-2 rounded-lg outline-0"
-                            type="text" name="" id="" pattern="\d*" maxLength={6} minLength={6} placeholder="Digite o código do erro" required/>
+                            value={solutionCtx?.errorCodeInput}   onChange={(e) => solutionCtx?.setErrorCodeInput(e.target.value)} type="text" name="" id="" pattern="\d*" maxLength={6} minLength={6} placeholder="Digite o código do erro" required/>
                     </div>
 
                     <div className="flex flex-col">
                         <label className="text-sm text-primary-blue mt-4 mb-1" htmlFor="">Digite o título do erro:</label>
                         <input
                             className="bg-secondary-white px-3 py-2 border-primary-blue border-2 rounded-lg outline-0"
-                            type="text" name="" id="" placeholder="Digite o título do erro:" required/>
+                            value={solutionCtx?.errorTitleInput}   onChange={(e) => solutionCtx?.setErrorTitleInput(e.target.value)} type="text" name="" id="" placeholder="Digite o título do erro:" required/>
                     </div>
 
                     <div className="flex flex-col">
                         <label className="text-sm text-primary-blue mt-4 mb-1" htmlFor="">Digite a solução:</label>
                         <input
                             className="bg-secondary-white px-3 py-2 border-primary-blue border-2 rounded-lg outline-0"
-                            type="text" name="" id="" placeholder="Digite a solução" required/>
+                            value={solutionCtx?.solutionContentInput}   onChange={(e) => solutionCtx?.setSolutionContentInput(e.target.value)} type="text" name="" id="" placeholder="Digite a solução" required/>
                     </div>
-                    <button className="bg-green-500 w-[150px] mt-8 px-3 py-2 rounded-lg text-white cursor-pointer hover:bg-green-500/90">+ Add</button>
+                    <button onClick={() => solutionCtx?.addSolution(solutionCtx?.errorCodeInput, solutionCtx.errorTitleInput, solutionCtx.solutionContentInput)} className="bg-green-500 w-[150px] mt-8 px-3 py-2 rounded-lg text-white cursor-pointer hover:bg-green-500/90">+ Add</button>
                 </div>
             </div>
         </section>

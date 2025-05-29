@@ -6,6 +6,16 @@ const baseUrl = axios.create({
     baseURL: "http://localhost:3000"
 })
 
+
+//POST
+export const createSolution = async (errorCode: string, errorTitle: string, solutionContent: string) => {
+    await baseUrl.post('/solution', {
+        errorCode: errorCode,
+        errorTitle: errorTitle,
+        solutionContent: solutionContent
+    });
+}
+
 //Solicitar todas as soluções
 export const getAllSolution = async (): Promise<Solution[]> => {
     const res = await baseUrl.get('/solution');
@@ -19,6 +29,6 @@ export const getSingleSolution = async (id: string): Promise<Solution> => {
 }
 
 export const deleteSolution = (id: string) => {
-    const res = baseUrl.delete(`/solution/${id}`);
+    baseUrl.delete(`/solution/${id}`);
     window.location.reload();
 }
