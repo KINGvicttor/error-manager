@@ -5,7 +5,7 @@ import { Home } from "@/components/Home";
 
 const Page = () => {
   return (
-    <div className="w-screen font-roboto bg-primary-white text-black">
+    <div className="w-screen h-screen font-roboto bg-secondary-white text-black">
       <Header />
       <Home />
     </div>

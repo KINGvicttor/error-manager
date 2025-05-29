@@ -3,7 +3,7 @@ export const Header = () => {
         <div className="w-screen h-[80px]  bg-primary-blue">
             <div className="h-full container mx-auto flex justify-between items-center text-white">
                 <div className="flex justify-start items-center w-[350px] bg-primary-blue">
-                    <div className="w-1 h-10 mr-2 ml-2 bg-secondary-blue"></div>
+                    <div className="w-1.5 h-10 mr-2 ml-2 bg-secondary-blue"></div>
                     <h1 className="text-4xl font-bold text-primary-white">Solution Manager</h1>
                 </div>
                 <div className="w-[500px] hidden lg:inline">

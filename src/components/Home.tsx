@@ -1,6 +1,6 @@
 export const Home = () => {
     return (
-        <section className="w-screen h-[calc(100vh-80px)] flex flex-col bg-secondary-white">
+        <section className="w-screen h-auto flex flex-col bg-secondary-white">
             <div className="container mx-auto flex flex-wrap justify-center gap-20 py-10 lg:justify-start">
 
                 {/* Adicionar nova solução */}
