@@ -1,5 +1,6 @@
 import { Solution } from "@/types/Solution";
 import axios from "axios";
+import { error } from "console";
 
 
 const baseUrl = axios.create({
@@ -26,6 +27,15 @@ export const getAllSolution = async (): Promise<Solution[]> => {
 export const getSingleSolution = async (id: string): Promise<Solution> => {
     const res = await baseUrl.get(`/solution/${id}`);
     return res.data;
+}
+
+//solicita alteração da solução - UPDATE
+export const updateSingleSolution = async (id: string, errorCode:string, errorTitle: string, solutionContent: string) => {
+    const res = await baseUrl.put(`/solution/${id}`, {
+        errorCode: errorCode,
+        errorTitle: errorTitle,
+        solutionContent: solutionContent
+    })
 }
 
 //Solicita remoção da solução _ DELETE

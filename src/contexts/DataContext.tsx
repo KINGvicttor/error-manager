@@ -1,11 +1,10 @@
-import { createSolution, deleteSolution, getAllSolution } from "@/services/api";
+import { createSolution, deleteSolution, getAllSolution, updateSingleSolution } from "@/services/api";
 import { Solution } from "@/types/Solution";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
 type DataContextType = {
     //array das soluções
     solutionData: Solution[],
-    filterData: Solution[],
 
     //states inputs para add soluções
     errorCodeInput: string,
@@ -24,6 +23,7 @@ type DataContextType = {
 
     //functions POST, UPDATE, DELETE
     addSolution: (errorCode: string, errorTitle: string, solutionContent: string) => void;
+    updateSolution: (id: string, errorCode: string, errorTitle: string, solutionContent: string) => void;
     deleteSingleSolution: (id: string) => void;
 }
 
@@ -36,7 +36,6 @@ export const DataContextProvider = ({ children }: Props) => {
 
     //State para armazenar a requisição get de todas as soluções
     const [solutionData, setSolutionData] = useState<Solution[]>([]);
-    const [filterData, setFilterData] = useState<Solution[]>([])
 
     //States dos inputs para adicionar nova solução
     const [errorCodeInput, setErrorCodeInput] = useState<string>('')
@@ -69,9 +68,12 @@ export const DataContextProvider = ({ children }: Props) => {
 
     //UPDATE
 
+    const updateSolution = async (id: string, errorCode: string, errorTitle: string, solutionContent: string) => {
+        await updateSingleSolution(id, errorCode, errorTitle, solutionContent);
+        window.location.href = '/solutionList';
+    }
 
     //DELETE
-
     const deleteSingleSolution = (id: string) => {
         deleteSolution(id);
         window.location.reload();
@@ -86,7 +88,7 @@ export const DataContextProvider = ({ children }: Props) => {
 
 
     return (
-        <DataContext.Provider value={{ solutionData, filterData, errorCodeInput, errorTitleInput, solutionContentInput, codeFilterInput, codeFilterBtn, setErrorCodeInput, setErrorTitleInput, setSolutionContentInput, setCodeFilterInput, getFilterSolution, cleanFilter, addSolution, deleteSingleSolution }}>
+        <DataContext.Provider value={{ solutionData, errorCodeInput, errorTitleInput, solutionContentInput, codeFilterInput, codeFilterBtn, setErrorCodeInput, setErrorTitleInput, setSolutionContentInput, setCodeFilterInput, getFilterSolution, cleanFilter, addSolution, updateSolution, deleteSingleSolution }}>
             {children}
         </DataContext.Provider>
     )
