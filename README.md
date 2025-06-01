@@ -17,7 +17,7 @@
       <li>API para cadastrar sugestões :white_check_mark:</li>
       <li>API para consultar as sugestões cadastradas :white_check_mark:</li>
       <li>Interface gráfica para cadastrar / listar / editar / deletar sugestões :white_check_mark:</li>
-      <li>API para cadastrar avaliações :white_check_mark:</li>
+      <li>API para cadastrar / listar avaliações :white_check_mark:</li>
       <li>Interface gráfica para cadastrar avaliações :white_check_mark:</li>
       <li>
         Dashboard contendo as seguintes informações:
