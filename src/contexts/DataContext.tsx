@@ -51,6 +51,7 @@ type Props = {
     children: ReactNode
 }
 
+//criando context e context.provider
 export const DataContext = createContext<DataContextType | null>(null);
 export const DataContextProvider = ({ children }: Props) => {
 
@@ -100,28 +101,38 @@ export const DataContextProvider = ({ children }: Props) => {
     //function requisição POST de AVALIAÇÔES
     const addRating = (id: string, errorCode: string, clientCode: string, date: string, clientRating: boolean | null, clientRatingText: string, like: number, dislike: number) => {
         try {
-            updateRatingSolution(id, like, dislike)
-            createRating(errorCode, clientCode, date, clientRating as boolean, clientRatingText)
+            //verificando se o codigo do cliente foi informado
+            if (clientCode != '') {
+                updateRatingSolution(id, like, dislike)
+                createRating(errorCode, clientCode, date, clientRating as boolean, clientRatingText)
 
-            toast.success("Obrigado pela Avaliação!")
-            setTimeout(() => {
-
-
-            }, 1000)
+                toast.success("Obrigado pela Avaliação!")
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000)
+            } else {
+                toast.error('Codigo de cliente não pode estar vazio.')
+            }
         } catch (error) {
             toast.error(`Error: ${error}`)
         }
     }
+
     //function requisição POST de SOLUÇÕES
     const addSolution = async (errorCode: string, errorTitle: string, solutionContent: string) => {
         try {
-            await createSolution(errorCode, errorTitle, solutionContent);
-            toast.success(`Error: ${errorCode} adicionado com sucesso!`);
+            //verificando se todas as informações foram informadas
+            if (errorCode != '' && errorTitle != '' && solutionContent != '') {
+                await createSolution(errorCode, errorTitle, solutionContent);
+                toast.success(`Error: ${errorCode} adicionado com sucesso!`);
 
-            setTimeout(() => {
-                window.location.href = '/solutionTable';
+                setTimeout(() => {
+                    window.location.href = '/solutionTable';
 
-            }, 1000)
+                }, 1000)
+            } else {
+                toast.error('Por favor preencha todos os campos.')
+            }
 
         } catch (error) {
             toast.error(`Error: ${error}`);
@@ -147,7 +158,6 @@ export const DataContextProvider = ({ children }: Props) => {
         try {
             deleteSolution(id);
             window.location.reload();
-
         } catch (error) {
             toast.error(`Error: ${error}`)
         }
@@ -155,9 +165,12 @@ export const DataContextProvider = ({ children }: Props) => {
 
     //functions requisição GET de SOLUÇÔES e AVALIAÇÔES
     useEffect(() => {
+        
+        //get soluções
         const getSolutions = getAllSolution();
         getSolutions.then((res) => setSolutionData(res));
 
+        //get avaliações
         const getRatings = getAllRating();
         getRatings.then((res) => setRatingData(res));
 
