@@ -1,5 +1,5 @@
 import { DataContext } from "@/contexts/DataContext"
-import { useContext, useRef } from "react"
+import { useContext } from "react"
 
 export const AddSolution = () => {
 

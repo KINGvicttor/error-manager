@@ -1,7 +1,6 @@
 import { createRating, createSolution, deleteSolution, getAllRating, getAllSolution, getSingleSolutionID, updateRatingSolution, updateSingleSolution } from "@/services/api";
 import { Rating } from "@/types/Rating";
 import { Solution } from "@/types/Solution";
-import { error } from "console";
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -31,10 +30,16 @@ type DataContextType = {
     setCodeFilterInput: (errorCode: string) => void;
     codeFilterBtn: boolean
     getFilterSolution: (errorCode: string) => void;
+    initialDate: string,
+    setInitialDate: (initialDate: string) => void;
+    endDate: string,
+    setEndDate: (endDate: string) => void;
+    dateFilterBtn: boolean,
+    dateFilter: () => void;
     cleanFilter: () => void;
 
     //functions avaliações
-    addRating: (id: string, errorCode: string, clientCode: string, clientRating: boolean | null, clientRatingText: string, like: number, dislike: number) => void;
+    addRating: (id: string, errorCode: string, clientCode: string, date: string, clientRating: boolean | null, clientRatingText: string, like: number, dislike: number) => void;
 
     //functions POST, UPDATE, DELETE; SOLUÇÔES
     addSolution: (errorCode: string, errorTitle: string, solutionContent: string) => void;
@@ -66,6 +71,9 @@ export const DataContextProvider = ({ children }: Props) => {
     //states filtros
     const [codeFilterInput, setCodeFilterInput] = useState<string>('');
     const [codeFilterBtn, setCodeFilterBtn] = useState<boolean>(false);
+    const [initialDate, setInitialDate] = useState<string>('');
+    const [endDate, setEndDate] = useState<string>('');
+    const [dateFilterBtn, setDateFilterBtn] = useState<boolean>(false);
 
     //function requisição com Filtro de código
     const getFilterSolution = async (errorCode: string) => {
@@ -77,20 +85,32 @@ export const DataContextProvider = ({ children }: Props) => {
 
     //function para limpar filtro
     const cleanFilter = () => {
-        setCodeFilterBtn(false);
         setCodeFilterInput('');
+        setInitialDate('');
+        setEndDate('');
+        setCodeFilterBtn(false);
+        setDateFilterBtn(false)
+    }
+
+    //filtro de data
+    const dateFilter = () => {
+        setDateFilterBtn(true)
     }
 
     //function requisição POST de AVALIAÇÔES
-    const addRating = (id: string, errorCode: string, clientCode: string, clientRating: boolean | null, clientRatingText: string, like: number, dislike: number) => {
-        updateRatingSolution(id, like, dislike)
-        createRating(errorCode, clientCode, clientRating as boolean, clientRatingText)
+    const addRating = (id: string, errorCode: string, clientCode: string, date: string, clientRating: boolean | null, clientRatingText: string, like: number, dislike: number) => {
+        try {
+            updateRatingSolution(id, like, dislike)
+            createRating(errorCode, clientCode, date, clientRating as boolean, clientRatingText)
 
-        toast.success("Obrigado pela Avaliação!")
-        setTimeout(() => {
-                window.location.reload();
+            toast.success("Obrigado pela Avaliação!")
+            setTimeout(() => {
+
 
             }, 1000)
+        } catch (error) {
+            toast.error(`Error: ${error}`)
+        }
     }
     //function requisição POST de SOLUÇÕES
     const addSolution = async (errorCode: string, errorTitle: string, solutionContent: string) => {
@@ -144,7 +164,7 @@ export const DataContextProvider = ({ children }: Props) => {
     }, [])
 
     return (
-        <DataContext.Provider value={{ solutionData, ratingData, errorCodeInput, errorTitleInput, solutionContentInput, clientRating, clientCodeInput, clientRatingTextInput, codeFilterInput, codeFilterBtn, setErrorCodeInput, setErrorTitleInput, setSolutionContentInput, setClientRating, setClientCodeInput, setClientRatingTextInput, setCodeFilterInput, getFilterSolution, cleanFilter, addRating, addSolution, updateSolution, deleteSingleSolution }}>
+        <DataContext.Provider value={{ solutionData, ratingData, errorCodeInput, errorTitleInput, solutionContentInput, clientRating, clientCodeInput, clientRatingTextInput, codeFilterInput, codeFilterBtn, initialDate, endDate, dateFilterBtn, setErrorCodeInput, setErrorTitleInput, setSolutionContentInput, setClientRating, setClientCodeInput, setClientRatingTextInput, setCodeFilterInput, getFilterSolution, setInitialDate, setEndDate, dateFilter, cleanFilter, addRating, addSolution, updateSolution, deleteSingleSolution }}>
             {children}
         </DataContext.Provider>
     )

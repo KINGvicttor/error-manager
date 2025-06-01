@@ -1,15 +1,15 @@
 'use client'
 
 import { Header } from "@/components/Header";
-import { SolutionTable } from "@/components/SolutionTable";
+import { Ratings } from "@/components/Ratings";
 import { DataContextProvider } from "@/contexts/DataContext";
 
 const Page = () => {
     return (
         <DataContextProvider>
-            <div className="w-screen font-roboto bg-primary-white text-black">
+            <div className="w-screen font-roboto bg-secondary-white text-black">
                 <Header />
-                <SolutionTable />
+                <Ratings />
             </div>
         </DataContextProvider>
     )

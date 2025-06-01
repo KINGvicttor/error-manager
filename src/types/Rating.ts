@@ -1,7 +1,8 @@
 export type Rating = {
     id: string,
     errorCode: string,
-    clientcode: string,
+    clientCode: string,
     rating: boolean,
-    ratingText: string
+    ratingText: string,
+    date: string
 }

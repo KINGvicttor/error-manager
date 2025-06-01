@@ -53,10 +53,11 @@ export const deleteSolution = (id: string) => {
 
 //---------- requisições para avaliação ----------
 //Solicitando criação da Avaliação
-export const createRating = async (errorCode: string, clientCode: string, rating: boolean, ratingText: string) => {
+export const createRating = async (errorCode: string, clientCode: string, date: string, rating: boolean | null, ratingText: string) => {
     await baseUrl.post('/rating', {
         errorCode: errorCode,
         clientCode: clientCode,
+        date: date,
         rating: rating,
         ratingText: ratingText
     })

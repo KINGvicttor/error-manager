@@ -1,12 +1,13 @@
 import { DataContext } from "@/contexts/DataContext";
 import { getSingleSolutionID } from "@/services/api";
 import { Solution } from "@/types/Solution";
-import { useContext, useEffect, useState } from "react"
+import { ReactNode, useContext, useEffect, useState } from "react"
 
 export const SolutionDetail = () => {
 
     // variavel para armazenar o context
     const solutionCtx = useContext(DataContext)
+    const date = new Date();
 
     //state para armazenar solução clicada
     const [singleSolution, setSingleSolution] = useState<Solution>()
@@ -35,11 +36,17 @@ export const SolutionDetail = () => {
         }
     }
 
+    const fillContent = () => {
+        const getP = document.querySelector("#content") as HTMLElement
+        getP.innerHTML = `${singleSolution?.solutionContent}`
+    }
+
     //Pegando parametro da url e fazendo requisição na api de acordo com o id
     useEffect(() => {
-        const params = window.location.search.substring(4)
-        const getSolution = getSingleSolutionID(params)
-        getSolution.then((res) => setSingleSolution(res))
+        const params = window.location.search.substring(4);
+        const getSolution = getSingleSolutionID(params);
+        getSolution.then((res) => setSingleSolution(res));
+        
     }, [])
 
     return (
@@ -58,8 +65,8 @@ export const SolutionDetail = () => {
                                 </a>
                             </div>
                             <div className="bg-primary-white p-4 text-black">
-                                <p className=" text-lg">Solução:</p>
-                                <p className="">{singleSolution?.solutionContent}</p>
+                                <p className="text-lg">Solução:</p>
+                                <p id="content" className=""></p>
                             </div>
                         </div>
                         <div className="w-full h-[200px] mt-4">
@@ -90,7 +97,7 @@ export const SolutionDetail = () => {
                                     <input
                                         className="px-3 py-2 ml-4  w-[250px] border-primary-blue border-2 rounded-lg outline-0 bg-secondary-white"
                                         value={solutionCtx?.clientRatingTextInput} onChange={(e) => solutionCtx?.setClientRatingTextInput(e.target.value)} type="text" placeholder="Deixe sua avaliação:" />
-                                    <button onClick={() => solutionCtx?.addRating(singleSolution?.id as string, singleSolution?.errorCode as string, solutionCtx.clientCodeInput, solutionCtx.clientRating, solutionCtx.clientRatingTextInput, like as number, dislike as number)} className="bg-green-500 rounded-lg px-3 py-2 text-white ml-2 cursor-pointer hover:bg-green-500/90">Enviar</button>
+                                    <button onClick={() => solutionCtx?.addRating(singleSolution?.id as string, singleSolution?.errorCode as string, solutionCtx.clientCodeInput, date.toLocaleDateString('pt-br'), solutionCtx.clientRating, solutionCtx.clientRatingTextInput, like as number, dislike as number)} className="bg-green-500 rounded-lg px-3 py-2 text-white ml-2 cursor-pointer hover:bg-green-500/90">Enviar</button>
                                 </div>
                             </div>
                         </div>
