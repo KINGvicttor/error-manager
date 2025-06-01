@@ -1,6 +1,7 @@
 # Como configurar
 
---------
+Em um terminal execute o comando NODE server.js para rodar a api.
+em outro terminal execute o comando npm run dev para inicializar sistema.
 
 # Tecnologias usadas
 
