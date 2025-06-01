@@ -3,6 +3,7 @@
 import { Header } from "@/components/Header";
 import { SolutionList } from "@/components/SolutionList";
 import { DataContextProvider } from "@/contexts/DataContext";
+import { ToastContainer } from "react-toastify";
 
 const Page = () => {
     return (

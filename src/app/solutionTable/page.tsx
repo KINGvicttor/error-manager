@@ -1,7 +1,7 @@
 'use client'
 
-import { EditSolution } from "@/components/EditSolution";
 import { Header } from "@/components/Header";
+import { SolutionTable } from "@/components/SolutionTable";
 import { DataContextProvider } from "@/contexts/DataContext";
 import { ToastContainer } from "react-toastify";
 
@@ -10,8 +10,7 @@ const Page = () => {
         <DataContextProvider>
             <div className="w-screen font-roboto bg-primary-white text-black">
                 <Header />
-                <EditSolution />
-                <ToastContainer position="bottom-right" />
+                <SolutionTable />
             </div>
         </DataContextProvider>
     )

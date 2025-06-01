@@ -1,6 +1,5 @@
 import { DataContext } from "@/contexts/DataContext"
-import { getSingleSolution } from "@/services/api"
-import { Solution } from "@/types/Solution"
+import { getSingleSolutionID } from "@/services/api"
 import { useContext, useEffect, useState } from "react"
 
 export const EditSolution = () => {
@@ -17,7 +16,7 @@ export const EditSolution = () => {
     //Pegando parametro da url e fazendo requisição na api de acordo com o id
     useEffect(() => {
         const params = window.location.search.substring(4)
-        const getSolution = getSingleSolution(params)
+        const getSolution = getSingleSolutionID(params)
         getSolution.then((res) => {
             setUpdateId(res.id);
             setUpdateErrorCode(res.errorCode);

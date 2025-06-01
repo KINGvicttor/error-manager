@@ -3,4 +3,6 @@ export type Solution = {
     errorCode: string,
     errorTitle: string,
     solutionContent: string
+    ratingPositive: number,
+    ratingNegative: number
 }

@@ -1,10 +1,14 @@
-import { createSolution, deleteSolution, getAllSolution, updateSingleSolution } from "@/services/api";
+import { createRating, createSolution, deleteSolution, getAllRating, getAllSolution, getSingleSolutionID, updateRatingSolution, updateSingleSolution } from "@/services/api";
+import { Rating } from "@/types/Rating";
 import { Solution } from "@/types/Solution";
+import { error } from "console";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 type DataContextType = {
     //array das soluções
     solutionData: Solution[],
+    ratingData: Rating[],
 
     //states inputs para add soluções
     errorCodeInput: string,
@@ -14,6 +18,14 @@ type DataContextType = {
     solutionContentInput: string,
     setSolutionContentInput: (s: string) => void;
 
+    //states inputs para avaliações
+    clientRating: boolean | null
+    setClientRating: (rating: boolean) => void;
+    clientCodeInput: string,
+    setClientCodeInput: (clientCode: string) => void;
+    clientRatingTextInput: string,
+    setClientRatingTextInput: (clientRatingText: string) => void;
+
     //states filtros
     codeFilterInput: string;
     setCodeFilterInput: (errorCode: string) => void;
@@ -21,7 +33,10 @@ type DataContextType = {
     getFilterSolution: (errorCode: string) => void;
     cleanFilter: () => void;
 
-    //functions POST, UPDATE, DELETE
+    //functions avaliações
+    addRating: (id: string, errorCode: string, clientCode: string, clientRating: boolean | null, clientRatingText: string, like: number, dislike: number) => void;
+
+    //functions POST, UPDATE, DELETE; SOLUÇÔES
     addSolution: (errorCode: string, errorTitle: string, solutionContent: string) => void;
     updateSolution: (id: string, errorCode: string, errorTitle: string, solutionContent: string) => void;
     deleteSingleSolution: (id: string) => void;
@@ -34,13 +49,19 @@ type Props = {
 export const DataContext = createContext<DataContextType | null>(null);
 export const DataContextProvider = ({ children }: Props) => {
 
-    //State para armazenar a requisição get de todas as soluções
+    //State para armazenar a requisição get de todas as soluções e avaliações
     const [solutionData, setSolutionData] = useState<Solution[]>([]);
+    const [ratingData, setRatingData] = useState<Rating[]>([]);
 
     //States dos inputs para adicionar nova solução
     const [errorCodeInput, setErrorCodeInput] = useState<string>('')
     const [errorTitleInput, setErrorTitleInput] = useState<string>('')
     const [solutionContentInput, setSolutionContentInput] = useState<string>('')
+
+    //States dos inputs para avaliações
+    const [clientRating, setClientRating] = useState<boolean | null>(null)
+    const [clientCodeInput, setClientCodeInput] = useState<string>('');
+    const [clientRatingTextInput, setClientRatingTextInput] = useState<string>('')
 
     //states filtros
     const [codeFilterInput, setCodeFilterInput] = useState<string>('');
@@ -60,35 +81,70 @@ export const DataContextProvider = ({ children }: Props) => {
         setCodeFilterInput('');
     }
 
-    //function requisição POST 
+    //function requisição POST de AVALIAÇÔES
+    const addRating = (id: string, errorCode: string, clientCode: string, clientRating: boolean | null, clientRatingText: string, like: number, dislike: number) => {
+        updateRatingSolution(id, like, dislike)
+        createRating(errorCode, clientCode, clientRating as boolean, clientRatingText)
+
+        toast.success("Obrigado pela Avaliação!")
+        setTimeout(() => {
+                window.location.reload();
+
+            }, 1000)
+    }
+    //function requisição POST de SOLUÇÕES
     const addSolution = async (errorCode: string, errorTitle: string, solutionContent: string) => {
-        await createSolution(errorCode, errorTitle, solutionContent);
-        window.location.href = '/solutionList';
+        try {
+            await createSolution(errorCode, errorTitle, solutionContent);
+            toast.success(`Error: ${errorCode} adicionado com sucesso!`);
+
+            setTimeout(() => {
+                window.location.href = '/solutionTable';
+
+            }, 1000)
+
+        } catch (error) {
+            toast.error(`Error: ${error}`);
+        }
     }
 
-    //UPDATE
-
+    //function requisição UPDATE de SOLUÇÕES
     const updateSolution = async (id: string, errorCode: string, errorTitle: string, solutionContent: string) => {
-        await updateSingleSolution(id, errorCode, errorTitle, solutionContent);
-        window.location.href = '/solutionList';
+        try {
+            await updateSingleSolution(id, errorCode, errorTitle, solutionContent);
+            toast.success(`Error: ${errorCode} atualizado com sucesso!`);
+            setTimeout(() => {
+                window.location.href = '/solutionTable';
+
+            }, 1000)
+        } catch (error) {
+            toast.error(`Error: ${error}`)
+        }
     }
 
-    //DELETE
+    //function requisição DELETE de SOLUÇÕES
     const deleteSingleSolution = (id: string) => {
-        deleteSolution(id);
-        window.location.reload();
+        try {
+            deleteSolution(id);
+            window.location.reload();
+
+        } catch (error) {
+            toast.error(`Error: ${error}`)
+        }
     }
 
-    //function requisição da lista de Soluções
+    //functions requisição GET de SOLUÇÔES e AVALIAÇÔES
     useEffect(() => {
         const getSolutions = getAllSolution();
-        getSolutions.then((res) => setSolutionData(res))
+        getSolutions.then((res) => setSolutionData(res));
+
+        const getRatings = getAllRating();
+        getRatings.then((res) => setRatingData(res));
 
     }, [])
 
-
     return (
-        <DataContext.Provider value={{ solutionData, errorCodeInput, errorTitleInput, solutionContentInput, codeFilterInput, codeFilterBtn, setErrorCodeInput, setErrorTitleInput, setSolutionContentInput, setCodeFilterInput, getFilterSolution, cleanFilter, addSolution, updateSolution, deleteSingleSolution }}>
+        <DataContext.Provider value={{ solutionData, ratingData, errorCodeInput, errorTitleInput, solutionContentInput, clientRating, clientCodeInput, clientRatingTextInput, codeFilterInput, codeFilterBtn, setErrorCodeInput, setErrorTitleInput, setSolutionContentInput, setClientRating, setClientCodeInput, setClientRatingTextInput, setCodeFilterInput, getFilterSolution, cleanFilter, addRating, addSolution, updateSolution, deleteSingleSolution }}>
             {children}
         </DataContext.Provider>
     )
