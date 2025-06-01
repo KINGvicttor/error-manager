@@ -49,6 +49,10 @@ export const SolutionDetail = () => {
         
     }, [])
 
+    setTimeout(() => {
+        fillContent()
+    }, 500);
+
     return (
         <section className="w-screen bg-secondary-white">
             <div className="container mx-auto w-full h-[calc(100vh-80px)] py-10">

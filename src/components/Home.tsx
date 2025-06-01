@@ -7,7 +7,7 @@ export const Home = () => {
                     <h1 className="text-4xl font-bold">Encontre as possíveis soluções de erros com nosso software.</h1>
                 </div>
             </div>
-            <div className="container mx-auto flex flex-wrap justify-center gap-20 py-10 lg:justify-start">
+            <div className="container mx-auto flex flex-wrap justify-center gap-20 p-10 lg:justify-start">
 
                 {/* Lista das soluções */}
                 <a href="/solutionList">

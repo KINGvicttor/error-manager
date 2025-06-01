@@ -1,11 +1,17 @@
 import { DataContext } from "@/contexts/DataContext"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 
 export const Dashboard = () => {
 
     const solutionCtx = useContext(DataContext);
 
-    console.log(solutionCtx?.ratingData)
+    const calc = () => {
+        const positive = solutionCtx?.ratingData.filter(item => item.rating === true).length as number
+        const negative = solutionCtx?.ratingData.filter(item => item.rating === false).length as number
+        const result = (positive + negative) / 2
+        return result
+    }
+
     return (
         <section className="w-screen h-[calc(100vh-80px)] flex flex-col bg-secondary-white">
             <div className="container mx-auto flex flex-col justify-center items-center p-10">
@@ -47,21 +53,14 @@ export const Dashboard = () => {
 
                         {/* Tabela com todas as avaliações */}
                         <a href="/ratings">
-                            <div className="w-[334px] h-[200px] flex justify-center items-center rounded-lg bg-primary-blue shadow-lg text-white cursor-pointer hover:bg-primary-blue/90">
-                                <svg className="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" strokeWidth="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
-                                </svg>
-                                <h1 className="text-2xl font-bold ml-2">Avaliações</h1>
-                            </div>
-                        </a>
-
-                        {/*  */}
-                        <a href="/solutionList">
-                            <div className="w-[334px] h-[200px] flex justify-center items-center rounded-lg bg-primary-blue shadow-lg text-white cursor-pointer hover:bg-primary-blue/90">
-                                <svg className="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" strokeWidth="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
-                                </svg>
-                                <h1 className="text-2xl font-bold ml-2">Avaliação média de <br /> todas Soluções</h1>
+                            <div className="w-[334px] h-[200px] justify-center items-center flex flex-col rounded-lg bg-primary-blue shadow-lg text-white cursor-pointer hover:bg-primary-blue/90">
+                                <div className="w-[334px] flex justify-center items-center">
+                                    <svg className="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" strokeWidth="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
+                                    </svg>
+                                    <h1 className="text-2xl font-bold ml-2">Avaliações</h1>
+                                </div>
+                                <p className="text-lg mt-2">{'Media de avaliações: ' + calc()}</p>
                             </div>
                         </a>
 
@@ -72,16 +71,6 @@ export const Dashboard = () => {
                                     <path stroke="currentColor" strokeWidth="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
                                 </svg>
                                 <h1 className="text-2xl font-bold ml-2">Avaliação média de <br /> cada Solução</h1>
-                            </div>
-                        </a>
-
-                        {/*  */}
-                        <a href="/solutionList">
-                            <div className="w-[334px] h-[200px] flex justify-center items-center rounded-lg bg-primary-blue shadow-lg text-white cursor-pointer hover:bg-primary-blue/90">
-                                <svg className="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" strokeWidth="2" d="M11.083 5.104c.35-.8 1.485-.8 1.834 0l1.752 4.022a1 1 0 0 0 .84.597l4.463.342c.9.069 1.255 1.2.556 1.771l-3.33 2.723a1 1 0 0 0-.337 1.016l1.03 4.119c.214.858-.71 1.552-1.474 1.106l-3.913-2.281a1 1 0 0 0-1.008 0L7.583 20.8c-.764.446-1.688-.248-1.474-1.106l1.03-4.119A1 1 0 0 0 6.8 14.56l-3.33-2.723c-.698-.571-.342-1.702.557-1.771l4.462-.342a1 1 0 0 0 .84-.597l1.753-4.022Z" />
-                                </svg>
-                                <h1 className="text-2xl font-bold ml-2">Avaliações de Cliente <br /> específico</h1>
                             </div>
                         </a>
                     </div>

@@ -69,6 +69,11 @@ export const getAllRating = async (): Promise<Rating[]> => {
     return res.data
 }
 
+export const GetSingleRating = async (id: string): Promise<Rating> => {
+    const res = await baseUrl.get(`/rating/${id}`);
+    return res.data;
+}
+
 
 export const updateRatingSolution = async (id: string, ratingPositive: number, ratingNegative: number) => {
     await baseUrl.put(`/rating/${id}`, {

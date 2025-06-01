@@ -61,7 +61,7 @@ export const Ratings = () => {
                                         <td className="w-[150px] text-start px-10 border-b border-primary-blue">{item.ratingText}</td>
                                         <td className="w-[80px] text-start px-10 border-b border-primary-blue">{item.date.substring(0, 10)}</td>
                                         <td className="w-[150px] px-10 border-b border-primary-blue">
-                                            <a href={`/solutionDetail?id=${item.id}`} className="px-3 py-2 cursor-pointer w-[80px] mx-1 bg-secondary-blue text-white rounded-lg hover:bg-secondary-blue/90">+ Detalhes</a>
+                                            <a href={`/ratingDetail?id=${item.id}`} className="px-3 py-2 cursor-pointer w-[80px] mx-1 bg-secondary-blue text-white rounded-lg hover:bg-secondary-blue/90">+ Detalhes</a>
                                         </td>
                                     </tr>
                                 ))
@@ -85,36 +85,10 @@ export const Ratings = () => {
                                         <td className="w-[150px] text-start px-10 border-b border-primary-blue">{item.ratingText}</td>
                                         <td className="w-[80px] text-start px-10 border-b border-primary-blue">{item.date.substring(0, 10)}</td>
                                         <td className="w-[150px] px-10 border-b border-primary-blue">
-                                            <a href={`/solutionDetail?id=${item.id}`} className="px-3 py-2 cursor-pointer w-[80px] mx-1 bg-secondary-blue text-white rounded-lg hover:bg-secondary-blue/90">+ Detalhes</a>
+                                            <a href={`/ratingDetail?id=${item.id}`} className="px-3 py-2 cursor-pointer w-[80px] mx-1 bg-secondary-blue text-white rounded-lg hover:bg-secondary-blue/90">+ Detalhes</a>
                                         </td>
                                     </tr>
                                 ))
-
-                            }
-
-                            {
-                                /* Caso não retorne nenhum valor no filtro */
-                                solutionCtx?.codeFilterBtn === true && solutionCtx?.solutionData.filter(item => item.errorCode === solutionCtx.codeFilterInput).length === 0 &&
-                                <tr>
-                                    <td></td>
-                                    <td className="h-[250px] flex justify-center items-center">
-                                        <p className="text-lg">Nenhum resultado encontrado.</p>
-                                    </td>
-                                    <td></td>
-                                </tr>
-
-                            }
-
-                            {
-                                /* Caso não retorne nenhum valor na requisição da lista completa */
-                                solutionCtx?.codeFilterBtn === false && solutionCtx?.solutionData.length === 0 &&
-                                <tr>
-                                    <td></td>
-                                    <td className="h-[250px] flex justify-center items-center">
-                                        <p className="text-lg">Nenhum resultado encontrado.</p>
-                                    </td>
-                                    <td></td>
-                                </tr>
 
                             }
                         </tbody>
